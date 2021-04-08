@@ -31,16 +31,16 @@ CA
 
 # moe (margin of error)
 
-mean(vt$moe)
-median(vt$estimate)
+mean(CA$moe)
+median(CA$estimate)
 
 ```
 
-#b) Use a dplyr functions to change your table of part a so that it reflects estimates that are greater than $30,00 dollars and list the estimates in descending order.
+#b) Use a dplyr functions to change your table of part a so that it reflects estimates that are greater than $30,000 dollars and list the estimates in descending order.
 
 ```{r}
 CA %>%
-  filter(estimate > 3000) %>%
+  filter(estimate > 30000) %>%
   arrange(desc(estimate)) -> CA3
 
 ```
@@ -56,7 +56,7 @@ CA3 %>%
 
 ```{r}
 CA3 %>%
-  filter(moe > 550) %>%
+  #filter(moe > 550) %>%
   ggplot(aes(x = estimate)) +
   geom_boxplot(color = "black", fill="red", alpha=10.2) +
   labs(y = "",
@@ -68,11 +68,11 @@ CA3 %>%
 
 ```{r}
 CA3 %>%
-  filter(moe > 556) %>%
+  #filter(moe > 556) %>%
   mutate(NAME = gsub(" County, alifornia", "", NAME)) %>%
   ggplot(aes(x = estimate, y = reorder(NAME, estimate))) +
   geom_errorbarh(aes(xmin = estimate - moe, xmax = estimate + moe)) +
-  geom_point(color = "blue", shape = 35, fill = "black", size = 6) +
+  geom_point(color = "blue",size = 3) +
   labs(title = "Median Income for White Males by county",
        subtitle = "2014-2018 American Community Survey",
        y = "",
